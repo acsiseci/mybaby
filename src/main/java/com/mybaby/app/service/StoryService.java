@@ -35,7 +35,7 @@ public class StoryService {
 
     public void saveStory(Story story)
     {
-        story.setCreatedBy("Admin");
+        story.setCreatedBy("Test User");
         story.setCreatedDate(new Date());
         story.setReadingTime((story.getContent().length()/ 228) + 1);
         storyRepository.save(story);
