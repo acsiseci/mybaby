@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/blog", produces = "application/json")
+@RequestMapping(value = "/story")
 public class StoryController {
-
 
     @Autowired
     private StoryService storyService;

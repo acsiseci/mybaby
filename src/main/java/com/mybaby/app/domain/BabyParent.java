@@ -7,14 +7,18 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "baby_parents")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class BabyParent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String username;
-    private String password;
+    @JoinColumn(name = "baby_id")
+    @ManyToOne(fetch = FetchType.EAGER , optional = false)
+    private Baby baby;
+    @ManyToOne(fetch = FetchType.EAGER , optional = false)
+    private Parent parent;
+
 }
