@@ -1,40 +1,25 @@
 package com.mybaby.app.controller;
 
-
-import com.mybaby.app.domain.Parent;
-import com.mybaby.app.domain.Story;
-import com.mybaby.app.repository.ParentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.mybaby.app.model.request.ParentRequest;
+import com.mybaby.app.model.response.ParentResponse;
+import com.mybaby.app.service.ParentService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-
 @RestController
-@RequestMapping("/parent")
+@AllArgsConstructor
+@RequestMapping("parent")
 public class ParentController {
 
-    @Autowired
-    private ParentRepository parentRepository;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ParentService parentService;
 
-    public ParentController(ParentRepository parentRepository,
-                            BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.parentRepository = parentRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    @PostMapping
+    public void save(@RequestBody ParentRequest request) {
+        parentService.save(request);
     }
-
-    @RequestMapping(value = "/sign-up", method = RequestMethod.POST)
-    public void signUp(@RequestBody Parent parent) {
-        parent.setPassword(bCryptPasswordEncoder.encode(parent.getPassword()));
-        parentRepository.save(parent);
-    }
-
 
     @GetMapping
-    public List<Parent> findAllStory() {
-        return parentRepository.findAll();
+    public ParentResponse getBabies() {
+        return parentService.getParents();
     }
 }

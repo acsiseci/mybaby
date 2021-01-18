@@ -5,37 +5,28 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "baby")
+@SequenceGenerator(name = "id_generator", sequenceName = "seq_baby", allocationSize = 1)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Baby {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class Baby extends BaseEntity {
+
+    @Column(nullable = false)
     private String gender;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String birthday;
-    @OneToMany(mappedBy = "baby",fetch = FetchType.LAZY)
-    private List<Baby> babies = new ArrayList<>();
 
-    public List<Parent> getParents(){
-         List<Parent> parents = new ArrayList<>();
-        for (Baby baby : getBabies()) {
-            parents.addAll(baby.getParents());
-        }
-
-        return parents;
-
-
-
-
-        //List<Baby> babies = getBabies();
-        //List<Parent> parents = babies.get(0).getParents();
-        //return  parents;
-    }
+    @JoinTable(name = "baby_parent",
+            joinColumns = @JoinColumn(name = "baby_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "parent_id", referencedColumnName = "id")
+    )
+    @OneToMany
+    private List<Parent> parents;
 }

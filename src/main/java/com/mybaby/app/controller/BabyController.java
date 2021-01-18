@@ -1,29 +1,33 @@
 package com.mybaby.app.controller;
 
-import com.mybaby.app.domain.Baby;
-import com.mybaby.app.domain.Story;
-import com.mybaby.app.model.BabyResponse;
+import com.mybaby.app.model.request.BabyRequest;
+import com.mybaby.app.model.response.BabyResponse;
 import com.mybaby.app.service.BabyService;
-import com.mybaby.app.service.StoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping(value = "/baby")
+@AllArgsConstructor
+@RequestMapping("baby")
 public class BabyController {
 
-    @Autowired
-    private BabyService babyService;
-
-    @GetMapping
-    public BabyResponse findAllBabys() {
-        return babyService.getAll();
-    }
+    private final BabyService babyService;
 
     @PostMapping
-    public void save(@RequestBody Baby baby) {
-        babyService.save(baby);
+    public void save(@RequestBody BabyRequest request) {
+        babyService.save(request);
+    }
+
+
+    @DeleteMapping("/{storyId}")
+    private void deleteBook(@PathVariable("storyId") Long storyId)
+    {
+        babyService.delete(storyId);
+    }
+
+
+    @GetMapping
+    public BabyResponse getBabies() {
+        return babyService.getBabies();
     }
 }

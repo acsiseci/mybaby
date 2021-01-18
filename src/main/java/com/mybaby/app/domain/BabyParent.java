@@ -7,18 +7,16 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "baby_parents")
+@SequenceGenerator(name = "id_generator", sequenceName = "seq_baby_parent", allocationSize = 1)
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"baby_id", "parent_id"}))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BabyParent {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @JoinColumn(name = "baby_id")
-    @ManyToOne(fetch = FetchType.EAGER , optional = false)
-    private Baby baby;
-    @ManyToOne(fetch = FetchType.EAGER , optional = false)
-    private Parent parent;
+public class BabyParent extends BaseEntity {
 
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private Baby baby;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private Parent parent;
 }

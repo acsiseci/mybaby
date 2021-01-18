@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="yusuf">
+        <createTable tableName="baby">
+            <column name="id" type="bigint"/>
+            <column name="gender" type="varchar(50)"/>
+            <column name="name" type="varchar(50)"/>
+            <column name="birthday" type="varchar(50)"/>
+        </createTable>
+
+        <addPrimaryKey tableName="baby" columnNames="id" constraintName="pk_baby_id"/>
+
+        <createSequence sequenceName="seq_baby"/>
+
+        <addNotNullConstraint tableName="baby" columnName="id"/>
+        <addNotNullConstraint tableName="baby" columnName="gender"/>
+        <addNotNullConstraint tableName="baby" columnName="name"/>
+        <addNotNullConstraint tableName="baby" columnName="birthday"/>
+    </changeSet>
+
+    <changeSet id="2" author="yusuf">
+        <createTable tableName="parent">
+            <column name="id" type="bigint"/>
+            <column name="username" type="varchar(50)"/>
+            <column name="password" type="varchar(50)"/>
+            <column name="name" type="varchar(50)"/>
+            <column name="family_code" type="varchar(50)"/>
+        </createTable>
+
+        <addPrimaryKey tableName="parent" columnNames="id" constraintName="pk_parent_id"/>
+
+        <createSequence sequenceName="seq_parent"/>
+
+        <addNotNullConstraint tableName="parent" columnName="id"/>
+        <addNotNullConstraint tableName="parent" columnName="username"/>
+        <addNotNullConstraint tableName="parent" columnName="password"/>
+        <addNotNullConstraint tableName="parent" columnName="name"/>
+        <addNotNullConstraint tableName="parent" columnName="family_code"/>
+    </changeSet>
+
+    <changeSet id="3" author="yusuf">
+        <createTable tableName="story">
+            <column name="id" type="bigint"/>
+            <column name="title" type="varchar(50)"/>
+            <column name="content" type="varchar(50)"/>
+            <column name="image" type="varchar(50)"/>
+            <column name="reading_time" type="varchar(50)"/>
+            <column name="created_by" type="varchar(50)"/>
+            <column name="created_date" type="timestamp(6)"/>
+            <column name="published" type="boolean" defaultValueBoolean="false"/>
+        </createTable>
+
+        <addPrimaryKey tableName="story" columnNames="id" constraintName="pk_story_id"/>
+
+        <createSequence sequenceName="seq_story"/>
+
+        <addNotNullConstraint tableName="story" columnName="id"/>
+        <addNotNullConstraint tableName="story" columnName="title"/>
+        <addNotNullConstraint tableName="story" columnName="content"/>
+        <addNotNullConstraint tableName="story" columnName="image"/>
+        <addNotNullConstraint tableName="story" columnName="reading_time"/>
+        <addNotNullConstraint tableName="story" columnName="created_by"/>
+        <addNotNullConstraint tableName="story" columnName="created_date"/>
+        <addNotNullConstraint tableName="story" columnName="published"/>
+    </changeSet>
+
+
+    <changeSet id="4" author="yusuf">
+        <createTable tableName="baby_parent">
+            <column name="id" type="bigint"/>
+            <column name="baby_id" type="bigint"/>
+            <column name="parent_id" type="bigint"/>
+        </createTable>
+
+        <addPrimaryKey tableName="baby_parent" columnNames="id"
+                       constraintName="pk_baby_parent"/>
+
+        <createSequence sequenceName="seq_baby_parent"/>
+
+        <addNotNullConstraint tableName="baby_parent" columnName="id"/>
+        <addNotNullConstraint tableName="baby_parent" columnName="baby_id"/>
+        <addNotNullConstraint tableName="baby_parent" columnName="parent_id"/>
+
+        <addUniqueConstraint columnNames="baby_id, parent_id"
+                             constraintName="unique_baby_and_parent_id"
+                             tableName="baby_parent"/>
+
+        <addForeignKeyConstraint baseTableName="baby_parent"
+                                 baseColumnNames="baby_id"
+                                 constraintName="fk_baby_id"
+                                 referencedTableName="baby"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="baby_parent"
+                                 baseColumnNames="parent_id"
+                                 constraintName="fk_parent_id"
+                                 referencedTableName="parent"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

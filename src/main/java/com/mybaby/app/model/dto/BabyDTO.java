@@ -1,13 +1,13 @@
-package com.mybaby.app.model;
+package com.mybaby.app.model.dto;
 
 import java.util.List;
 
-public class BabyModel {
+public class BabyDTO {
+
     private String gender;
     private String name;
     private String birthday;
-    private List<ParentModel> parentModelList;
-
+    private List<ParentDTO> parents;
 
     public String getGender() {
         return gender;
@@ -33,14 +33,11 @@ public class BabyModel {
         this.birthday = birthday;
     }
 
-    public List<ParentModel> getParentModelList() {
-        return parentModelList;
+    public List<ParentDTO> getParents() {
+        return parents;
     }
 
-    public void setParentModelList(List<ParentModel> parentModelList) {
-        this.parentModelList = parentModelList;
+    public void setParents(List<ParentDTO> parents) {
+        this.parents = parents;
     }
-
-
-
 }

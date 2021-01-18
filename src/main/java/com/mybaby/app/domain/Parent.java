@@ -9,18 +9,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "parent")
+@SequenceGenerator(name = "id_generator", sequenceName = "seq_parent", allocationSize = 1)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Parent {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class Parent extends BaseEntity {
+
+    @Column(nullable = false)
     private String username;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String familyCode;
-    @OneToMany(mappedBy = "parent",fetch = FetchType.LAZY)
-    private List<Parent> parentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "parent")
+    private List<BabyParent> babyParents;
 }

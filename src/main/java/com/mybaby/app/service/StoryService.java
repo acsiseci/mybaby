@@ -22,16 +22,14 @@ public class StoryService {
     {
         return storyRepository.mobileFindAll();
     }
-    public Story getStoryById(Long id) {
-        return storyRepository.findById(id).get();
-    }
+    public Story getStoryById(Long id) { return storyRepository.findById(id).get(); }
     public void deleteStory(Long id) {
         storyRepository.deleteById(id);
     }
     public void saveStory(Story story) {
         story.setCreatedBy("Test User");
         story.setCreatedDate(new Date());
-        story.setReadingTime((story.getContent().length()/ 228) + 1);
+        story.setReadingTime(String.valueOf((story.getContent().length()/ 228) + 1));
         storyRepository.save(story);
     }
 
