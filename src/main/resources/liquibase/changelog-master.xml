@@ -102,4 +102,17 @@
                                  referencedTableName="parent"
                                  referencedColumnNames="id"/>
     </changeSet>
+
+
+
+    <changeSet id="4" author="cemre">
+        <addColumn tableName="parent">
+            <column name="email" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="6" author="cemre">
+        <modifyDataType tableName="parent" columnName="password" newDataType="varchar(500)"/>
+    </changeSet>
+
 </databaseChangeLog>

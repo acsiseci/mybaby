@@ -1,6 +1,8 @@
 package com.mybaby.app.controller;
 
 import com.mybaby.app.domain.Story;
+import com.mybaby.app.security.CurrentUser;
+import com.mybaby.app.security.UserPrincipal;
 import com.mybaby.app.service.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +18,7 @@ public class StoryController {
 
 
     @GetMapping("/mobile")
-    public List<Story> mobileFindAllStory() {
+    public List<Story> mobileFindAllStory(@CurrentUser UserPrincipal currentUser) {
         return storyService.getAllMobileStories();
     }
 
