@@ -16,11 +16,10 @@ public class BabyDTOConverter implements Converter<Baby, BabyDTO> {
     @Override
     public BabyDTO convert(Baby baby) {
         BabyDTO babyDTO = new BabyDTO();
+        babyDTO.setId(baby.getId());
         babyDTO.setName(baby.getName());
         babyDTO.setBirthday(baby.getBirthday());
         babyDTO.setGender(baby.getGender());
-        List<ParentDTO> parentDTOS = convertParent(baby.getParents());
-        babyDTO.setParents(parentDTOS);
         return babyDTO;
     }
 

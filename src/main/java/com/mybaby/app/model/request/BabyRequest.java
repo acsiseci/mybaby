@@ -1,13 +1,12 @@
 package com.mybaby.app.model.request;
+import java.time.LocalDateTime;
 
-import java.util.List;
 
 public class BabyRequest {
 
     private String gender;
     private String name;
-    private String birthday;
-    private List<ParentRequest> parents;
+    private LocalDateTime birthday;
 
     public String getGender() {
         return gender;
@@ -25,19 +24,11 @@ public class BabyRequest {
         this.name = name;
     }
 
-    public String getBirthday() {
+    public LocalDateTime getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(LocalDateTime birthday) {
         this.birthday = birthday;
-    }
-
-    public List<ParentRequest> getParents() {
-        return parents;
-    }
-
-    public void setParents(List<ParentRequest> parents) {
-        this.parents = parents;
     }
 }

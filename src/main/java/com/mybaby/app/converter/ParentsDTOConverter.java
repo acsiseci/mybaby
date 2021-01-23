@@ -1,5 +1,6 @@
 package com.mybaby.app.converter;
 
+import com.mybaby.app.domain.Baby;
 import com.mybaby.app.domain.BabyParent;
 import com.mybaby.app.domain.Parent;
 import com.mybaby.app.model.dto.BabyDTO;
@@ -18,26 +19,25 @@ public class ParentsDTOConverter implements Converter<Parent, ParentDTO> {
         ParentDTO parentDTO = new ParentDTO();
         parentDTO.setFamilyCode(parent.getFamilyCode());
         parentDTO.setName(parent.getName());
-        parentDTO.setBabyList(convertBaby(parent.getBabyParents()));
+        parentDTO.setBabyList(convertBaby(parent.getBabies()));
         return parentDTO;
     }
 
     public Parent convert(ParentRequest parentDTO) {
         Parent parent = new Parent();
-        parent.setUsername(parentDTO.getUsername());
         parent.setPassword(parentDTO.getPassword());
         parent.setFamilyCode(parentDTO.getFamilyCode());
         parent.setName(parentDTO.getName());
         return parent;
     }
 
-    private List<BabyDTO> convertBaby(List<BabyParent> babies) {
+    private List<BabyDTO> convertBaby(List<Baby> babyList) {
         List<BabyDTO> babyDTOS = new ArrayList<>();
-        for (BabyParent babyParent : babies) {
+        for (Baby baby : babyList) {
             BabyDTO babyDTO = new BabyDTO();
-            babyDTO.setName(babyParent.getBaby().getName());
-            babyDTO.setGender(babyParent.getBaby().getGender());
-            babyDTO.setBirthday(babyParent.getBaby().getBirthday());
+            babyDTO.setName(baby.getName());
+            babyDTO.setGender(baby.getGender());
+            babyDTO.setBirthday(baby.getBirthday());
             babyDTOS.add(babyDTO);
         }
         return babyDTOS;

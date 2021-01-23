@@ -43,13 +43,9 @@ public class AuthService {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         String jwt = tokenProvider.generateToken(authentication);
-
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-
         log.info("User with [email: {}] has logged in", userPrincipal.getEmail());
-
         return new JwtAuthenticationResponse(jwt);
     }
 
@@ -57,7 +53,7 @@ public class AuthService {
         if(parentRepository.existsByEmail(signUpRequest.getEmail())) {
             throw new ConflictException("Email [email: " + signUpRequest.getEmail() + "] is already taken");
         }
-        Parent user = new Parent(signUpRequest.getFamilyCode(),signUpRequest.getUsername(),signUpRequest.getName(), signUpRequest.getEmail(), signUpRequest.getPassword());
+        Parent user = new Parent(signUpRequest.getFamilyCode(),signUpRequest.getName(), signUpRequest.getEmail(), signUpRequest.getPassword());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         log.info("Successfully registered user with [email: {}]", user.getEmail());
         return parentRepository.save(user).getId();

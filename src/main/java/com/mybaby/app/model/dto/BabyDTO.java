@@ -1,13 +1,21 @@
 package com.mybaby.app.model.dto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class BabyDTO {
-
+    private Long id;
     private String gender;
     private String name;
-    private String birthday;
-    private List<ParentDTO> parents;
+    private LocalDateTime birthday;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getGender() {
         return gender;
@@ -25,19 +33,11 @@ public class BabyDTO {
         this.name = name;
     }
 
-    public String getBirthday() {
+    public LocalDateTime getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(LocalDateTime birthday) {
         this.birthday = birthday;
-    }
-
-    public List<ParentDTO> getParents() {
-        return parents;
-    }
-
-    public void setParents(List<ParentDTO> parents) {
-        this.parents = parents;
     }
 }

@@ -39,4 +39,9 @@ public class ParentService {
         Parent parent = parentsDTOConverter.convert(request);
         parentRepository.save(parent);
     }
+
+    public Parent findById(long id) {
+        return parentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(
+                "parent not found"));
+    }
 }

@@ -10,14 +10,14 @@ import com.mybaby.app.model.response.BabyResponse;
 import com.mybaby.app.repository.BabyParentRepository;
 import com.mybaby.app.repository.BabyRepository;
 import com.mybaby.app.repository.ParentRepository;
+import com.mybaby.app.security.UserPrincipal;
 import com.mybaby.app.validator.SaveBabyValidator;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static java.util.Objects.requireNonNull;
 
 
 @Service
@@ -29,38 +29,51 @@ public class BabyService {
     private final SaveBabyValidator saveBabyValidator;
     private final BabyDTOConverter babyDTOConverter;
     private final ParentRepository parentRepository;
+    private final ParentService parentService;
 
-    public BabyService(BabyRepository babyRepository, BabyParentRepository babyParentRepository, SaveBabyValidator saveBabyValidator, BabyDTOConverter babyDTOConverter, ParentRepository parentRepository) {
+    public BabyService(BabyRepository babyRepository, BabyParentRepository babyParentRepository, SaveBabyValidator saveBabyValidator, BabyDTOConverter babyDTOConverter, ParentRepository parentRepository, ParentService parentService) {
         this.babyRepository = babyRepository;
         this.babyParentRepository = babyParentRepository;
         this.parentRepository = parentRepository;
 
         this.saveBabyValidator = saveBabyValidator;
         this.babyDTOConverter = babyDTOConverter;
+        this.parentService = parentService;
     }
 
-    public BabyResponse getBabies() {
-        List<Baby> babies = babyRepository.findAll();
+
+    public BabyResponse getBabies(UserPrincipal currentUser) {
+        List<Baby> babies = parentService.findById(currentUser.getId()).getBabies();
         List<BabyDTO> babyDTOS = babyDTOConverter.convert(babies);
         return BabyResponse.create(babyDTOS);
     }
 
-    public void save(BabyRequest request) {
+
+
+    public void saveBaby(BabyRequest request, UserPrincipal currentUser) {
         saveBabyValidator.validate(request);
+        Parent parent = parentService.findById(currentUser.getId());
         Baby baby = babyDTOConverter.convert(request);
-        List<Parent> parents = new ArrayList<>();
-        BabyParent babyParent = new BabyParent();
-
-        babyParent.setBaby(baby);
-        babyParent.setParent(parentRepository.findAll().get(2));
-
-        baby.setParents(parents);
+        baby.addBabyParent(parent);
         babyRepository.save(baby);
-        babyParentRepository.save(babyParent);
     }
+
+    public void updateBaby(Long babyId, BabyRequest request) {
+        Baby baby = findById(babyId);
+        baby.setName(request.getName());
+        baby.setGender(request.getGender());
+        baby.setBirthday(request.getBirthday());
+        babyRepository.save(baby);
+    }
+
 
     public void delete(Long id) {
         babyRepository.deleteById(id);
+    }
+
+    public Baby findById(long id) {
+        return babyRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(
+                "baby not found"));
     }
 
 

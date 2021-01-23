@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,12 +23,18 @@ public class Baby extends BaseEntity {
     private String name;
 
     @Column(nullable = false)
-    private String birthday;
+    private LocalDateTime birthday;
 
-    @JoinTable(name = "baby_parent",
-            joinColumns = @JoinColumn(name = "baby_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "parent_id", referencedColumnName = "id")
-    )
-    @OneToMany
-    private List<Parent> parents;
+    @OneToMany(mappedBy = "baby", cascade = CascadeType.ALL)
+    private List<BabyParent> babyParents = new ArrayList<>();
+
+    public void addBabyParent(Parent parent){
+        BabyParent babyParent = new BabyParent();
+        babyParent.setBaby(this);
+        babyParent.setParent(parent);
+        getBabyParents().add(babyParent);
+    }
+
 }
+
+

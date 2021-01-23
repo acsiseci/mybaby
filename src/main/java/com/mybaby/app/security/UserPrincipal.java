@@ -3,13 +3,11 @@ package com.mybaby.app.security;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mybaby.app.domain.Parent;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class UserPrincipal implements UserDetails {
 
