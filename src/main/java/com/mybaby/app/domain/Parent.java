@@ -13,7 +13,8 @@ import java.util.List;
 @Entity
 @SequenceGenerator(name = "id_generator", sequenceName = "seq_parent", allocationSize = 1)
 @Data
-
+@NoArgsConstructor
+@AllArgsConstructor
 
 public class Parent extends BaseEntity {
 
@@ -35,10 +36,4 @@ public class Parent extends BaseEntity {
     @OneToMany
     private List<Baby> babies = new ArrayList<>();
 
-
-    public Parent(){}
-
-    public Parent(String familyCode, String name, String email, String password) {
-        super();
-    }
 }

@@ -28,6 +28,9 @@ public class Baby extends BaseEntity {
     @OneToMany(mappedBy = "baby", cascade = CascadeType.ALL)
     private List<BabyParent> babyParents = new ArrayList<>();
 
+    @OneToMany(mappedBy = "baby", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Activity> activities = new ArrayList<>();
+
     public void addBabyParent(Parent parent){
         BabyParent babyParent = new BabyParent();
         babyParent.setBaby(this);

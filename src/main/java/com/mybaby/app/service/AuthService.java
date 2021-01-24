@@ -53,8 +53,11 @@ public class AuthService {
         if(parentRepository.existsByEmail(signUpRequest.getEmail())) {
             throw new ConflictException("Email [email: " + signUpRequest.getEmail() + "] is already taken");
         }
-        Parent user = new Parent(signUpRequest.getFamilyCode(),signUpRequest.getName(), signUpRequest.getEmail(), signUpRequest.getPassword());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        Parent user = new Parent();
+        user.setEmail(signUpRequest.getEmail());
+        user.setFamilyCode(signUpRequest.getFamilyCode());
+        user.setName(signUpRequest.getName());
+        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         log.info("Successfully registered user with [email: {}]", user.getEmail());
         return parentRepository.save(user).getId();
     }

@@ -13,9 +13,6 @@ import com.mybaby.app.repository.ParentRepository;
 import com.mybaby.app.security.UserPrincipal;
 import com.mybaby.app.validator.SaveBabyValidator;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,7 +32,6 @@ public class BabyService {
         this.babyRepository = babyRepository;
         this.babyParentRepository = babyParentRepository;
         this.parentRepository = parentRepository;
-
         this.saveBabyValidator = saveBabyValidator;
         this.babyDTOConverter = babyDTOConverter;
         this.parentService = parentService;

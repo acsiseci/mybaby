@@ -106,4 +106,36 @@
         <modifyDataType tableName="baby" columnName="birthday" newDataType="TIMESTAMP WITHOUT TIME ZONE"/>
     </changeSet>
 
+
+
+
+    <changeSet id="6" author="cemre">
+        <createTable tableName="activity">
+            <column name="id" type="bigint"/>
+            <column name="baby_id" type="bigint"/>
+            <column name="date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="activity" type="varchar(50)"/>
+            <column name="type" type="varchar(50)"/>
+            <column name="detail" type="varchar(50)"/>
+        </createTable>
+
+        <addPrimaryKey tableName="activity" columnNames="id"
+                       constraintName="pk_activity"/>
+
+        <createSequence sequenceName="seq_activity"/>
+
+        <addNotNullConstraint tableName="activity" columnName="id"/>
+        <addNotNullConstraint tableName="activity" columnName="baby_id"/>
+        <addNotNullConstraint tableName="activity" columnName="date"/>
+        <addNotNullConstraint tableName="activity" columnName="activity"/>
+
+
+        <addForeignKeyConstraint baseTableName="activity"
+                                 baseColumnNames="baby_id"
+                                 constraintName="fk_baby_id"
+                                 referencedTableName="baby"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
 </databaseChangeLog>
