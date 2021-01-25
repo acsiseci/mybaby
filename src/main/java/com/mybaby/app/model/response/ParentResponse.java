@@ -1,7 +1,6 @@
 package com.mybaby.app.model.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mybaby.app.model.dto.BabyDTO;
 import com.mybaby.app.model.dto.ParentDTO;
 
 import java.util.List;

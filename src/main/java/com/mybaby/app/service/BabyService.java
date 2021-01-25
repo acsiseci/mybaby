@@ -45,10 +45,25 @@ public class BabyService {
     }
 
 
+    public List<Baby> getBabiesList(UserPrincipal currentUser) {
+        List<Baby> babies = parentService.findById(currentUser.getId()).getBabies();
+        return babies;
+    }
+
+
 
     public void saveBaby(BabyRequest request, UserPrincipal currentUser) {
         saveBabyValidator.validate(request);
         Parent parent = parentService.findById(currentUser.getId());
+        Baby baby = babyDTOConverter.convert(request);
+        baby.addBabyParent(parent);
+        babyRepository.save(baby);
+    }
+
+
+    public void saveBaby(BabyRequest request, Long userId) {
+        saveBabyValidator.validate(request);
+        Parent parent = parentService.findById(userId);
         Baby baby = babyDTOConverter.convert(request);
         baby.addBabyParent(parent);
         babyRepository.save(baby);

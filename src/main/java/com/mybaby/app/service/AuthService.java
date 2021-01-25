@@ -3,6 +3,7 @@ package com.mybaby.app.service;
 import com.mybaby.app.domain.Parent;
 import com.mybaby.app.exception.ConflictException;
 import com.mybaby.app.model.request.LoginRequest;
+import com.mybaby.app.model.request.SignUpAndSaveBabyRequest;
 import com.mybaby.app.model.request.SignUpRequest;
 import com.mybaby.app.model.response.JwtAuthenticationResponse;
 import com.mybaby.app.repository.ParentRepository;
@@ -25,13 +26,15 @@ public class AuthService {
     private ParentRepository parentRepository;
     private PasswordEncoder passwordEncoder;
     private JwtTokenProvider tokenProvider;
+    private BabyService babyService;
 
     @Autowired
-    public AuthService(AuthenticationManager authenticationManager, ParentRepository parentRepository, PasswordEncoder passwordEncoder, JwtTokenProvider tokenProvider) {
+    public AuthService(AuthenticationManager authenticationManager, ParentRepository parentRepository, PasswordEncoder passwordEncoder, JwtTokenProvider tokenProvider,BabyService babyService) {
         this.authenticationManager = authenticationManager;
         this.parentRepository = parentRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenProvider = tokenProvider;
+        this.babyService = babyService;
     }
 
     public JwtAuthenticationResponse authenticateUser(LoginRequest loginRequest) {
@@ -60,5 +63,23 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         log.info("Successfully registered user with [email: {}]", user.getEmail());
         return parentRepository.save(user).getId();
+    }
+
+    public Long registerUserAndSaveBabies(SignUpAndSaveBabyRequest signUpAndBabyRequest) {
+        if(parentRepository.existsByEmail(signUpAndBabyRequest.getEmail())) {
+            throw new ConflictException("Email [email: " + signUpAndBabyRequest.getEmail() + "] is already taken");
+        }
+        Parent user = new Parent();
+        user.setEmail(signUpAndBabyRequest.getEmail());
+        user.setFamilyCode(signUpAndBabyRequest.getFamilyCode());
+        user.setName(signUpAndBabyRequest.getName());
+        user.setPassword(passwordEncoder.encode(signUpAndBabyRequest.getPassword()));
+        log.info("Successfully registered user with [email: {}]", user.getEmail());
+        Long userId = parentRepository.save(user).getId();
+        for (int i = 0; i < signUpAndBabyRequest.getBaby().size(); i++) {
+            babyService.saveBaby(signUpAndBabyRequest.getBaby().get(i),userId);
+        }
+        return userId;
+
     }
 }

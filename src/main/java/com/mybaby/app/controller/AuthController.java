@@ -1,6 +1,7 @@
 package com.mybaby.app.controller;
 
 import com.mybaby.app.model.request.LoginRequest;
+import com.mybaby.app.model.request.SignUpAndSaveBabyRequest;
 import com.mybaby.app.model.request.SignUpRequest;
 import com.mybaby.app.model.response.JwtAuthenticationResponse;
 import com.mybaby.app.service.AuthService;
@@ -29,4 +30,11 @@ public class AuthController {
     public Long register(@Valid @RequestBody SignUpRequest signUpRequest) {
         return authService.registerUser(signUpRequest);
     }
+
+    @PostMapping("/signup-savebaby")
+    public Long registers(@Valid @RequestBody SignUpAndSaveBabyRequest signUpAndBabyRequest) {
+        return authService.registerUserAndSaveBabies(signUpAndBabyRequest);
+    }
+
+
 }
